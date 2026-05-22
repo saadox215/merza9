@@ -1,0 +1,292 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Metal+Mania&family=Rubik+Glitch&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .terror-wrap {
+    background: #080000;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-texture {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(47deg, transparent, transparent 200px, rgba(120,0,0,0.06) 201px),
+      repeating-linear-gradient(-30deg, transparent, transparent 150px, rgba(90,0,0,0.05) 151px),
+      radial-gradient(ellipse at 50% 50%, rgba(80,0,0,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .blood-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #6b0000, transparent);
+    opacity: 0.7;
+  }
+
+  .blood-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(to top, #6b0000, transparent);
+    opacity: 0.4;
+  }
+
+  .group-title {
+    font-family: 'Metal Mania', serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    color: #cc0000;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 40px #ff0000, 0 0 80px #800000, 0 0 120px #400000;
+    margin-bottom: 0.2rem;
+    animation: flicker 4s infinite alternate;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sub-title {
+    font-family: 'Creepster', serif;
+    font-size: clamp(0.9rem, 3vw, 1.4rem);
+    color: #550000;
+    text-align: center;
+    letter-spacing: 0.35em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .destroyed-label {
+    font-family: 'Rubik Glitch', sans-serif;
+    font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+    color: #ff2200;
+    letter-spacing: 0.4em;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    animation: glitch 2.5s infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  .countdown-grid {
+    display: flex;
+    gap: clamp(10px, 3vw, 32px);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .unit-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .unit-box {
+    background: #0f0000;
+    border: 1px solid #550000;
+    border-radius: 12px;
+    width: clamp(90px, 18vw, 160px);
+    height: clamp(90px, 18vw, 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(200,0,0,0.25), inset 0 0 30px rgba(120,0,0,0.2);
+  }
+
+  .unit-number {
+    font-family: 'Metal Mania', serif;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    color: #ff1a00;
+    text-shadow: 0 0 20px #ff0000, 0 0 50px #aa0000;
+    line-height: 1;
+    animation: pulse-num 1s ease-in-out infinite alternate;
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .unit-label {
+    font-family: 'Creepster', serif;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    color: #550000;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  .separator {
+    font-family: 'Metal Mania', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: #550000;
+    animation: blink-sep 1s step-end infinite;
+    margin-bottom: 28px;
+    line-height: 1;
+  }
+
+  .divider {
+    width: clamp(200px, 60%, 500px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, #440000, transparent);
+    margin: 2.5rem 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .target-date {
+    font-family: 'Creepster', serif;
+    font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+    color: #3a0000;
+    text-align: center;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .skull-row {
+    display: flex;
+    gap: clamp(8px, 2vw, 18px);
+    margin-top: 2rem;
+    opacity: 0.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .skull {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    animation: skull-sway 2s ease-in-out infinite alternate;
+  }
+  .skull:nth-child(2) { animation-delay: 0.25s; }
+  .skull:nth-child(3) { animation-delay: 0.5s; }
+  .skull:nth-child(4) { animation-delay: 0.75s; }
+  .skull:nth-child(5) { animation-delay: 1s; }
+  .skull:nth-child(6) { animation-delay: 1.25s; }
+  .skull:nth-child(7) { animation-delay: 1.5s; }
+
+  .zero-msg {
+    display: none;
+    font-family: 'Rubik Glitch', sans-serif;
+    font-size: clamp(1.8rem, 6vw, 4rem);
+    color: #ff0000;
+    text-align: center;
+    animation: glitch 0.4s infinite;
+    text-shadow: 0 0 40px #ff0000, 0 0 80px #800000;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes flicker {
+    0%, 90% { opacity: 1; }
+    91% { opacity: 0.7; }
+    92% { opacity: 1; }
+    94% { opacity: 0.4; }
+    95% { opacity: 1; }
+    97% { opacity: 0.8; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes glitch {
+    0%  { transform: translate(0); }
+    20% { transform: translate(-3px, 1px); filter: hue-rotate(15deg); }
+    40% { transform: translate(3px, -1px); }
+    60% { transform: translate(-1px, 3px); filter: hue-rotate(-15deg); }
+    80% { transform: translate(2px, -2px); }
+    100%{ transform: translate(0); }
+  }
+
+  @keyframes blink-sep {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes pulse-num {
+    from { text-shadow: 0 0 15px #ff0000, 0 0 30px #800000; }
+    to   { text-shadow: 0 0 40px #ff0000, 0 0 80px #cc0000, 0 0 120px #800000; }
+  }
+
+  @keyframes skull-sway {
+    from { transform: rotate(-10deg) translateY(0); }
+    to   { transform: rotate(10deg) translateY(-5px); }
+  }
+</style>
+
+<div class="terror-wrap" role="region" aria-label="Compte à rebours Benmsik Destroyed">
+  <h2 class="sr-only">Compte à rebours jusqu'à la destruction de Benmsik — 23 mai 2026 00h00</h2>
+  <div class="bg-texture"></div>
+  <div class="blood-top"></div>
+  <div class="blood-bottom"></div>
+
+  <div class="group-title">Benmsik</div>
+  <div class="sub-title">Group — Final Countdown</div>
+  <div class="destroyed-label">☠ — Destroyed at 00:00 — ☠</div>
+
+  <div class="countdown-grid" id="countdown">
+    <div class="unit-block">
+      <div class="unit-box"><span class="unit-number" id="days">00</span></div>
+      <span class="unit-label">Jours</span>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit-block">
+      <div class="unit-box"><span class="unit-number" id="hours">00</span></div>
+      <span class="unit-label">Heures</span>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit-block">
+      <div class="unit-box"><span class="unit-number" id="minutes">00</span></div>
+      <span class="unit-label">Minutes</span>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit-block">
+      <div class="unit-box"><span class="unit-number" id="seconds">00</span></div>
+      <span class="unit-label">Secondes</span>
+    </div>
+  </div>
+
+  <div class="zero-msg" id="zero-msg">☠ BENMSIK DESTROYED ☠</div>
+
+  <div class="divider"></div>
+  <p class="target-date">Cible : Samedi 23 Mai 2026 — 00:00:00</p>
+
+  <div class="skull-row" aria-hidden="true">
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+    <span class="skull">☠</span>
+  </div>
+</div>
+
+<script>
+  const target = new Date('2026-05-23T00:00:00').getTime();
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      document.getElementById('countdown').style.display = 'none';
+      document.getElementById('zero-msg').style.display = 'block';
+      return;
+    }
+    document.getElementById('days').textContent    = pad(Math.floor(diff / 86400000));
+    document.getElementById('hours').textContent   = pad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById('minutes').textContent = pad(Math.floor((diff % 3600000) / 60000));
+    document.getElementById('seconds').textContent = pad(Math.floor((diff % 60000) / 1000));
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
